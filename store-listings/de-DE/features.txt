@@ -1,0 +1,5 @@
+Projektname, Bausatz, Aufbewahrungsort und Notiz
+Ein optionales JPEG- oder PNG-Foto
+Geplant, Angefangen und Fertig
+Textsuche und lokale Speicherung
+Sechs wählbare Oberflächensprachen

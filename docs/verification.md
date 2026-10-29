@@ -1,5 +1,29 @@
 # Prüfbericht
 
+## Internationalisierung, 29. Oktober 2026
+
+Release und ASan/UBSan bestehen mit 136 fachlichen Qt-Testausführungen
+plus 14 Initialisierungs- und Abschlussaufrufen. Alle acht CTest-Suiten
+einschließlich Katalogprüfung bestehen. Sechs Kataloge enthalten je 119 Meldungen.
+Formatter, Compilerwarnungen, clang-tidy, Ruff und Shell-Syntax sind geprüft.
+
+Die gebündelte Release-Laufzeit besteht zwölf echte Prozesse auf einem eigenen
+Xvfb-Display. Jede Sprache prüft Unicode-CRUD, Fotos, alle Statuswechsel,
+Verwerfen, SQLite-Sperren, Sprachspeicherfehler und Neustart. 24 Aufnahmen
+mit 1920 × 1080 Pixeln zeigen die laufende Anwendung. Die Bilder wurden visuell
+geprüft. Der bisherige deutsche GUI-Gesamtablauf besteht zusätzlich mit
+nativer GTK3-Fotoauswahl und 14 Nachweisbildern.
+
+Nachweise liegen in `build/international-release-check.log`,
+`build/international-asan-check.log`, `build/international-captures-final-v2/`
+und `build/international-legacy-gui-final-v2/`. Die getestete Laufzeit liegt in
+`build/staging/international-20261029-v2/modellbauprojekt-0.1.0-linux-x64/`.
+Quell- und Laufzeit-Hashes binden die Aufnahmen an den geprüften Stand.
+Die Ordnerlieferung enthält sechs Store-Textfassungen und eigenes Demo-Bildmaterial.
+Windows-Abnahme und Store-Einreichung sind weiterhin offen.
+
+## Historischer Erststand
+
 Stand: 27. Oktober 2026, ModellbauProjekt 0.1.0.
 
 ## Umgebung und automatische Prüfungen

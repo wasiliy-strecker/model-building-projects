@@ -18,6 +18,15 @@ Fotos werden begrenzt eingelesen und vollständig geprüft. Grenzen sind 10 MiB,
 6000 Pixel pro Seite und 16 Millionen Pixel. Quelldateien niemals verändern.
 Tests benutzen nur temporäre Datenbanken und synthetische Bilder.
 
+## Sprachen und Vorschauen
+
+Sechs app-lokale Kataloge für de-DE, en-US, es-ES, fr-FR, it-IT und pt-BR
+übersetzen alle eigenen UI-Meldungen. Neue Texte im App-Katalog ergänzen.
+Sprachwahl gilt ab Neustart. Statuscodes bleiben englisch und unverändert.
+GitHub-Namen und Metadaten bleiben englisch. Vorschauen ausschließlich als
+Ordner ohne ZIP oder anderes Lieferarchiv liefern. Echte Fenster auf eigenen
+virtuellen Displays prüfen. Siehe `docs/internationalization.md`.
+
 ## Prüfen und abschließen
 
 ```bash

@@ -15,7 +15,7 @@ Es wurde noch nichts veröffentlicht oder bei einem Store eingereicht.
 ## Entwickeln und starten
 
 C++20, Qt **6.8.3** Widgets, CMake ab 3.25 und Ninja. Qt Core, Gui, Widgets,
-Sql und Test sowie QSQLITE und JPEG-Plugin müssen aus derselben SDK-Version
+Sql und Test sowie LinguistTools, QSQLITE und JPEG-Plugin müssen aus derselben SDK-Version
 und zum verwendeten Compiler passen. PNG ist im verwendeten Qt Gui enthalten.
 Lokal geprüft: Ubuntu 24.04.4 x64, GCC 13.3.0, CMake 4.4.4 und Ninja 1.11.1.
 Formatter ist clang-format 23.1.3, statische Prüfung clang-tidy 22.1.8.
@@ -52,6 +52,18 @@ Optionale Maschinenpfade gehören in die ignorierte `.tools/env.sh`.
 Ein installiertes SDK darf für mehrere Projekte verwendet werden. Die fertige
 App benötigt weder Entwicklerwerkzeuge noch eine separate Qt-Installation oder
 eine andere Portfolio-App. Es gibt keine gemeinsame Runtime-Abhängigkeit.
+
+## Sprachen
+
+Deutsch, Englisch, Spanisch, Französisch, Italienisch und brasilianisches
+Portugiesisch stehen unter „Sprache“ oder Strg+, zur Wahl. Die Auswahl gilt ab
+Neustart. Beim ersten Start folgt die App der Systemsprache, mit Englisch als
+Rückfall. Namen, Notizen, Fotos und gespeicherte Statuscodes bleiben unverändert.
+`language.txt` neben der Datenbank enthält nur die Einstellung. Native
+Dateidialog-Schaltflächen können der Betriebssystemsprache folgen.
+
+[Internationalisierung und Vorschauordner](docs/internationalization.md)
+beschreibt die realen GUI-Prüfungen und Store-Assets.
 
 ## Bedienung
 
@@ -154,7 +166,7 @@ und synthetische Bilder.
 | 2 | SammlerVitrine | Ein Foto pro Eintrag |
 | 3 | ModellbauProjekt | Projektstatus |
 | 4 | HolzwerkProjekt | Checkliste |
-| 5, Reserve | RestaurierungsHeft | PDF-Export |
+| 5 | RestaurierungsHeft | PDF-Export |
 
 Jede Stufe behält die vorherigen Grundfunktionen. Diese App implementiert
 nur Stufe 3. Keine Checklisten, PDF-Exporte, Teile- oder Farbenverwaltung,

@@ -1,0 +1,49 @@
+{
+  "items": [
+    [
+      "Planador",
+      "Atelier Nord",
+      "Bancada 1",
+      "Lixar as asas antes de pintar."
+    ],
+    [
+      "Veleiro",
+      "Studio Mira",
+      "Prateleira 2",
+      "Cortar as velas de tecido de algodão."
+    ],
+    [
+      "Bonde",
+      "Werkstatt Lin",
+      "Prateleira 3",
+      "Pintar as molduras de creme."
+    ],
+    [
+      "Prédio da oficina",
+      "Atelier Nord",
+      "Prateleira 4",
+      "Ajustar as peças do telhado sem cola."
+    ],
+    [
+      "Ponte de jardim",
+      "Studio Mira",
+      "Prateleira 5",
+      "Verificar os corrimãos antes da montagem."
+    ]
+  ],
+  "photos": [
+    "images/glider.png",
+    "images/boat.jpg",
+    "images/railcar.png",
+    null,
+    null
+  ],
+  "statuses": [
+    "started",
+    "planned",
+    "finished",
+    "planned",
+    "started"
+  ],
+  "search": "asas"
+}

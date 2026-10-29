@@ -1,0 +1,49 @@
+{
+  "items": [
+    [
+      "Aliante",
+      "Atelier Nord",
+      "Banco da lavoro 1",
+      "Levigare le ali prima di verniciare."
+    ],
+    [
+      "Barca a vela",
+      "Studio Mira",
+      "Scaffale 2",
+      "Tagliare le vele dal tessuto di cotone."
+    ],
+    [
+      "Tram",
+      "Werkstatt Lin",
+      "Scaffale 3",
+      "Dipingere i telai color crema."
+    ],
+    [
+      "Edificio dell’officina",
+      "Atelier Nord",
+      "Scaffale 4",
+      "Provare i pannelli del tetto a secco."
+    ],
+    [
+      "Ponte da giardino",
+      "Studio Mira",
+      "Scaffale 5",
+      "Controllare i parapetti prima del montaggio."
+    ]
+  ],
+  "photos": [
+    "images/glider.png",
+    "images/boat.jpg",
+    "images/railcar.png",
+    null,
+    null
+  ],
+  "statuses": [
+    "started",
+    "planned",
+    "finished",
+    "planned",
+    "started"
+  ],
+  "search": "ali"
+}

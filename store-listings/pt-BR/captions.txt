@@ -1,0 +1,4 @@
+Confira projetos com foto e status.
+Edite detalhes, foto e status juntos.
+Encontre um projeto pelas notas.
+Escolha o idioma para a próxima abertura.

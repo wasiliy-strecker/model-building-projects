@@ -1,0 +1,49 @@
+{
+  "items": [
+    [
+      "Segelflugzeug",
+      "Atelier Nord",
+      "Werkbank 1",
+      "Tragflächen vor dem Lackieren schleifen."
+    ],
+    [
+      "Segelboot",
+      "Studio Mira",
+      "Regal 2",
+      "Segel aus Baumwolle zuschneiden."
+    ],
+    [
+      "Straßenbahn",
+      "Werkstatt Lin",
+      "Regal 3",
+      "Fensterrahmen in Creme streichen."
+    ],
+    [
+      "Werkstattgebäude",
+      "Atelier Nord",
+      "Regal 4",
+      "Dachplatten trocken anpassen."
+    ],
+    [
+      "Gartenbrücke",
+      "Studio Mira",
+      "Regal 5",
+      "Geländer vor der Montage prüfen."
+    ]
+  ],
+  "photos": [
+    "images/glider.png",
+    "images/boat.jpg",
+    "images/railcar.png",
+    null,
+    null
+  ],
+  "statuses": [
+    "started",
+    "planned",
+    "finished",
+    "planned",
+    "started"
+  ],
+  "search": "Tragflächen"
+}

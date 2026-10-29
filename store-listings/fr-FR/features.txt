@@ -1,0 +1,5 @@
+Nom du projet, kit, emplacement et notes
+Une photo JPEG ou PNG facultative
+États Prévu, En cours et Terminé
+Recherche de texte et stockage local
+Six langues disponibles

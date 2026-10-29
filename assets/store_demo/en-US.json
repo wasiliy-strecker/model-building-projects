@@ -1,0 +1,49 @@
+{
+  "items": [
+    [
+      "Glider",
+      "Atelier Nord",
+      "Workbench 1",
+      "Sand the wings before painting."
+    ],
+    [
+      "Sailboat",
+      "Studio Mira",
+      "Shelf 2",
+      "Cut the sails from cotton fabric."
+    ],
+    [
+      "Tram",
+      "Werkstatt Lin",
+      "Shelf 3",
+      "Paint the window frames cream."
+    ],
+    [
+      "Workshop building",
+      "Atelier Nord",
+      "Shelf 4",
+      "Dry-fit the roof panels."
+    ],
+    [
+      "Garden bridge",
+      "Studio Mira",
+      "Shelf 5",
+      "Check the railings before assembly."
+    ]
+  ],
+  "photos": [
+    "images/glider.png",
+    "images/boat.jpg",
+    "images/railcar.png",
+    null,
+    null
+  ],
+  "statuses": [
+    "started",
+    "planned",
+    "finished",
+    "planned",
+    "started"
+  ],
+  "search": "wings"
+}

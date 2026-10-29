@@ -1,6 +1,10 @@
 #include "ui/main_window.h"
+#include "ui/language_dialog.h"
 #include "ui/photo_view.h"
 #include "ui/ui_support.h"
+#include <QCoreApplication>
+#include <QLocale>
+#include <QScrollArea>
 
 #include <QApplication>
 #include <QCloseEvent>
@@ -23,15 +27,18 @@
 
 namespace modelbuild {
 
-MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWidget* parent)
+MainWindow::MainWindow(StorageController& controller, QString dataDirectory,
+                       QString languagePreference, QWidget* parent)
     : QMainWindow(parent), controller_(controller), dataDirectory_(std::move(dataDirectory)),
-      search_(new QLineEdit(this)), table_(new QTableWidget(this)), note_(new QPlainTextEdit(this)),
-      photo_(new PhotoView(this)), detailTitle_(new QLabel(this)), state_(new QLabel(this)),
-      feedback_(new QLabel(this)), count_(new QLabel(this)),
-      add_(new QPushButton(QStringLiteral("Projekt hinzufügen"), this)),
-      edit_(new QPushButton(QStringLiteral("Bearbeiten"), this)),
-      remove_(new QPushButton(QStringLiteral("Löschen"), this)),
-      reload_(new QPushButton(QStringLiteral("Neu laden"), this)) {
+      languagePreference_(std::move(languagePreference)), search_(new QLineEdit(this)),
+      table_(new QTableWidget(this)), note_(new QPlainTextEdit(this)), photo_(new PhotoView(this)),
+      detailTitle_(new QLabel(this)), state_(new QLabel(this)), feedback_(new QLabel(this)),
+      count_(new QLabel(this)),
+      add_(new QPushButton(QCoreApplication::translate("App", "Projekt hinzufügen"), this)),
+      edit_(new QPushButton(QCoreApplication::translate("App", "&Bearbeiten"), this)),
+      remove_(new QPushButton(QCoreApplication::translate("App", "&Löschen"), this)),
+      reload_(new QPushButton(QCoreApplication::translate("App", "Neu laden"), this)),
+      language_(new QPushButton(QCoreApplication::translate("App", "Sprache"), this)) {
   setWindowTitle(QStringLiteral("ModellbauProjekt"));
   setObjectName(QStringLiteral("mainWindow"));
   resize(1100, 800);
@@ -47,20 +54,26 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
   titleFont.setBold(true);
   title->setFont(titleFont);
   header->addWidget(title, 1);
-  auto* about = new QPushButton(QStringLiteral("Über die App"), central);
-  header->addWidget(about);
+  auto* about = new QPushButton(QCoreApplication::translate("App", "Über die App"), central);
   root->addLayout(header);
-  auto* subtitle =
-      new QLabel(QStringLiteral("Deine Ideen. Schritt für Schritt zum eigenen Modell."), central);
+  auto* settings = new QHBoxLayout;
+  settings->addStretch();
+  language_->setObjectName(QStringLiteral("changeLanguage"));
+  settings->addWidget(language_);
+  settings->addWidget(about);
+  root->addLayout(settings);
+  auto* subtitle = new QLabel(
+      QCoreApplication::translate("App", "Deine Ideen. Schritt für Schritt zum eigenen Modell."),
+      central);
   subtitle->setWordWrap(true);
   root->addWidget(subtitle);
   search_->setObjectName(QStringLiteral("searchProjects"));
-  search_->setAccessibleName(QStringLiteral("Sammlung durchsuchen"));
+  search_->setAccessibleName(QCoreApplication::translate("App", "Sammlung durchsuchen"));
   search_->setPlaceholderText(
-      QStringLiteral("Name, Bausatz, Aufbewahrungsort oder Notiz suchen …"));
+      QCoreApplication::translate("App", "Name, Bausatz, Aufbewahrungsort oder Notiz suchen …"));
   search_->setClearButtonEnabled(true);
   root->addWidget(search_);
-  auto* clear = new QPushButton(QStringLiteral("Suche leeren"), central);
+  auto* clear = new QPushButton(QCoreApplication::translate("App", "Suche leeren"), central);
   clear->setObjectName(QStringLiteral("clearSearch"));
   auto* searchInfo = new QHBoxLayout;
   searchInfo->addWidget(count_, 1);
@@ -76,11 +89,13 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
   state_->setTextFormat(Qt::PlainText);
   collectionLayout->addWidget(state_);
   table_->setObjectName(QStringLiteral("projectsTable"));
-  table_->setAccessibleName(QStringLiteral("Modellbauprojekte"));
+  table_->setAccessibleName(QCoreApplication::translate("App", "Modellbauprojekte"));
   table_->setColumnCount(5);
-  table_->setHorizontalHeaderLabels(
-      {QStringLiteral("Projektname"), QStringLiteral("Bausatz / Hersteller"),
-       QStringLiteral("Aufbewahrungsort"), QStringLiteral("Status"), QStringLiteral("Foto")});
+  table_->setHorizontalHeaderLabels({QCoreApplication::translate("App", "Projektname"),
+                                     QCoreApplication::translate("App", "Bausatz / Hersteller"),
+                                     QCoreApplication::translate("App", "Aufbewahrungsort"),
+                                     QCoreApplication::translate("App", "Status"),
+                                     QCoreApplication::translate("App", "Foto")});
   table_->setSelectionBehavior(QAbstractItemView::SelectRows);
   table_->setSelectionMode(QAbstractItemView::SingleSelection);
   table_->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -104,7 +119,7 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
   detailTitle_->setFont(detailFont);
   detailLayout->addWidget(detailTitle_);
   note_->setObjectName(QStringLiteral("selectedNote"));
-  note_->setAccessibleName(QStringLiteral("Vollständige Notiz"));
+  note_->setAccessibleName(QCoreApplication::translate("App", "Vollständige Notiz"));
   note_->setReadOnly(true);
   note_->setTabChangesFocus(true);
   photo_->setObjectName(QStringLiteral("selectedPhoto"));
@@ -139,9 +154,21 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
   root->addLayout(actions);
   root->addWidget(reload_, 0, Qt::AlignRight);
   reload_->hide();
-  setCentralWidget(central);
+  auto* centralScroll = new QScrollArea(this);
+  centralScroll->setWidgetResizable(true);
+  centralScroll->setFrameShape(QFrame::NoFrame);
+  centralScroll->setWidget(central);
+  setCentralWidget(centralScroll);
 
   connect(about, &QPushButton::clicked, this, &MainWindow::showAbout);
+  connect(language_, &QPushButton::clicked, this, &MainWindow::showLanguage);
+  auto* languageShortcut = new QShortcut(QKeySequence(QStringLiteral("Ctrl+,")), this);
+  connect(languageShortcut, &QShortcut::activated, this, &MainWindow::showLanguage);
+  connect(&controller_, &StorageController::languageSaved, this, [this](const QString& preference) {
+    languagePreference_ = preference;
+    feedback_->setText(
+        QCoreApplication::translate("App", "Sprache gespeichert. Sie gilt beim nächsten Start."));
+  });
   connect(clear, &QPushButton::clicked, search_, &QLineEdit::clear);
   connect(search_, &QLineEdit::textChanged, this, [this, clear] {
     clear->setEnabled(!search_->text().isEmpty());
@@ -167,7 +194,7 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
   connect(&controller_, &StorageController::busyChanged, this, [this](bool busy) {
     updateActions();
     if (busy) {
-      feedback_->setText(QStringLiteral("Daten werden verarbeitet …"));
+      feedback_->setText(QCoreApplication::translate("App", "Daten werden verarbeitet …"));
     }
   });
   connect(&controller_, &StorageController::loaded, this, [this](const ProjectList& projects) {
@@ -191,10 +218,12 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
         std::any_of(visibleProjects_.cbegin(), visibleProjects_.cend(),
                     [&project](const ModelProject& row) { return row.id == project.id; });
     feedback_->setText(
-        visible ? QStringLiteral("„%1“ wurde gespeichert.").arg(project.fields.name)
-                : QStringLiteral("„%1“ wurde gespeichert, passt aber nicht zur aktuellen Suche. "
-                                 "Mit „Suche leeren“ findest du es wieder.")
-                      .arg(project.fields.name));
+        visible
+            ? QCoreApplication::translate("App", "„%1“ wurde gespeichert.").arg(project.fields.name)
+            : QCoreApplication::translate(
+                  "App", "„%1“ wurde gespeichert, passt aber nicht zur aktuellen Suche. "
+                         "Mit „Suche leeren“ findest du es wieder.")
+                  .arg(project.fields.name));
     reload_->hide();
   });
   connect(&controller_, &StorageController::removed, this, [this](qint64 id) {
@@ -203,17 +232,18 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
                                    [id](const ModelProject& project) { return project.id == id; }),
                     projects_.end());
     refresh(0, row);
-    feedback_->setText(QStringLiteral("Das Projekt wurde gelöscht."));
+    feedback_->setText(QCoreApplication::translate("App", "Das Projekt wurde gelöscht."));
     reload_->hide();
   });
   connect(&controller_, &StorageController::failed, this,
           [this](Operation operation, const QString& message) {
             feedback_->setText(message);
-            if (operation != Operation::Save) {
+            if (operation != Operation::Save && operation != Operation::Language) {
               reload_->show();
             }
             if (!ready_) {
-              state_->setText(QStringLiteral("Die Sammlung konnte nicht geöffnet werden."));
+              state_->setText(
+                  QCoreApplication::translate("App", "Die Sammlung konnte nicht geöffnet werden."));
               count_->clear();
             }
             updateActions();
@@ -226,7 +256,7 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
             selectedDetails_ = draft;
             selectedPreview_ = preview;
             if (draft.photo.isEmpty())
-              photo_->showMessage(QStringLiteral("Kein Foto"));
+              photo_->showMessage(QCoreApplication::translate("App", "Kein Foto"));
             else
               photo_->showPhoto(preview);
             updateActions();
@@ -236,7 +266,8 @@ MainWindow::MainWindow(StorageController& controller, QString dataDirectory, QWi
             if (token != previewGeneration_)
               return;
             selectedDetails_.reset();
-            photo_->showMessage(QStringLiteral("Foto konnte nicht geladen werden"));
+            photo_->showMessage(
+                QCoreApplication::translate("App", "Foto konnte nicht geladen werden"));
             feedback_->setText(message);
             reload_->show();
             updateActions();
@@ -264,7 +295,8 @@ void MainWindow::refresh(std::optional<qint64> preferredId, int fallbackRow) {
     const auto& project = visibleProjects_.at(row);
     const QStringList values{project.fields.name, project.fields.manufacturer,
                              project.fields.location, displayStatus(project.fields.status),
-                             project.hasPhoto ? QStringLiteral("Ja") : QStringLiteral("–")};
+                             project.hasPhoto ? QCoreApplication::translate("App", "Ja")
+                                              : QStringLiteral("–")};
     for (int column = 0; column < values.size(); ++column) {
       auto* item = new QTableWidgetItem(values.at(column));
       item->setData(Qt::UserRole, project.id);
@@ -283,45 +315,49 @@ void MainWindow::refresh(std::optional<qint64> preferredId, int fallbackRow) {
     table_->setCurrentCell(-1, -1);
   }
   state_->setText(
-      !ready_ ? QStringLiteral("Sammlung wird geladen …")
+      !ready_ ? QCoreApplication::translate("App", "Sammlung wird geladen …")
       : projects_.isEmpty()
-          ? QStringLiteral(
-                "Deine Projektliste ist noch leer. Füge dein erstes Modellbauprojekt hinzu.")
+          ? QCoreApplication::translate(
+                "App", "Deine Projektliste ist noch leer. Füge dein erstes Modellbauprojekt hinzu.")
       : visibleProjects_.isEmpty()
-          ? QStringLiteral("Keine Projekte gefunden. Ändere oder leere die Suche.")
+          ? QCoreApplication::translate("App",
+                                        "Keine Projekte gefunden. Ändere oder leere die Suche.")
           : QString());
-  count_->setText(
-      ready_
-          ? QStringLiteral("%1 von %2 Projekten").arg(visibleProjects_.size()).arg(projects_.size())
-          : QString());
+  count_->setText(ready_ ? QCoreApplication::translate("App", "Projekte: %1 / %2")
+                               .arg(QLocale().toString(visibleProjects_.size()),
+                                    QLocale().toString(projects_.size()))
+                         : QString());
   updateSelection();
 }
 
 void MainWindow::updateSelection() {
   const auto selected = selectedProject();
-  detailTitle_->setText(selected ? QStringLiteral("Notiz zu „%1“").arg(selected->fields.name)
-                                 : QStringLiteral("Notiz"));
+  detailTitle_->setText(
+      selected ? QCoreApplication::translate("App", "Notiz zu „%1“").arg(selected->fields.name)
+               : QCoreApplication::translate("App", "Notiz"));
   note_->setPlainText(selected ? selected->fields.note : QString());
   ++previewGeneration_;
   selectedDetails_.reset();
   selectedPreview_ = {};
   if (selected && selected->hasPhoto) {
-    photo_->showMessage(QStringLiteral("Foto wird geladen …"));
+    photo_->showMessage(QCoreApplication::translate("App", "Foto wird geladen …"));
     controller_.read(selected->id, previewGeneration_);
   } else {
-    photo_->showMessage(QStringLiteral("Kein Foto"));
+    photo_->showMessage(QCoreApplication::translate("App", "Kein Foto"));
     if (selected)
       selectedDetails_ = selected->fields;
   }
   note_->setPlaceholderText(
-      selected ? QStringLiteral("Zu diesem Projekt gibt es noch keine Notiz.")
-               : QStringLiteral("Wähle ein Projekt aus, um seine Notiz zu lesen."));
+      selected
+          ? QCoreApplication::translate("App", "Zu diesem Projekt gibt es noch keine Notiz.")
+          : QCoreApplication::translate("App", "Wähle ein Projekt aus, um seine Notiz zu lesen."));
   updateActions();
 }
 
 void MainWindow::updateActions() {
   const bool available = ready_ && !controller_.isBusy() && (!editor_ || !editor_->isVisible());
   add_->setEnabled(available);
+  language_->setEnabled(available);
   edit_->setEnabled(available && selectedProject().has_value() && selectedDetails_.has_value());
   remove_->setEnabled(available && selectedProject().has_value());
   reload_->setEnabled(!controller_.isBusy() && (!editor_ || !editor_->isVisible()));
@@ -375,7 +411,8 @@ bool MainWindow::eventFilter(QObject* watched, QEvent* event) {
 
 void MainWindow::closeEvent(QCloseEvent* event) {
   if (controller_.isBusy()) {
-    feedback_->setText(QStringLiteral(
+    feedback_->setText(QCoreApplication::translate(
+        "App",
         "Bitte warte, bis der laufende Datenbankzugriff beendet ist, und schließe dann erneut."));
     event->ignore();
     return;
@@ -389,7 +426,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 
 void MainWindow::showAbout() {
   QDialog dialog(this);
-  dialog.setWindowTitle(QStringLiteral("Über ModellbauProjekt"));
+  dialog.setWindowTitle(QCoreApplication::translate("App", "Über ModellbauProjekt"));
   dialog.resize(640, 500);
   auto* layout = new QVBoxLayout(&dialog);
   auto* text = new QTextBrowser(&dialog);
@@ -399,14 +436,22 @@ void MainWindow::showAbout() {
     licenseText = QString::fromUtf8(notices.readAll());
   }
   text->setPlainText(
-      QStringLiteral(
-          "ModellbauProjekt %1\n\nDeine Sammlung bleibt lokal.\nDatenverzeichnis: %2\n\n%3")
+      QCoreApplication::translate(
+          "App", "ModellbauProjekt %1\n\nDeine Sammlung bleibt lokal.\nDatenverzeichnis: %2\n\n%3")
           .arg(QCoreApplication::applicationVersion(), dataDirectory_, licenseText));
   layout->addWidget(text);
   auto* buttons = new QDialogButtonBox(QDialogButtonBox::Close, &dialog);
-  buttons->button(QDialogButtonBox::Close)->setText(QStringLiteral("Schließen"));
+  buttons->button(QDialogButtonBox::Close)
+      ->setText(QCoreApplication::translate("App", "Schließen"));
   connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
   layout->addWidget(buttons);
+  dialog.exec();
+}
+
+void MainWindow::showLanguage() {
+  if (!language_->isEnabled())
+    return;
+  LanguageDialog dialog(controller_, dataDirectory_, languagePreference_, this);
   dialog.exec();
 }
 

@@ -1,0 +1,5 @@
+Project name, kit, storage location, and notes
+One optional JPEG or PNG photo
+Planned, Started, and Finished status
+Text search and local storage
+Six selectable interface languages

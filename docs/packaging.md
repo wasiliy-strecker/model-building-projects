@@ -9,7 +9,7 @@ Store-Einreichung noch Veröffentlichung oder behauptete Store-Freigabe.
 Qt 6.8.3 wird dynamisch unter der gewählten kostenfreien LGPL-Basis eingebunden.
 Core, Gui, Widgets, Sql, Plattform-Plugins und QSQLITE stammen aus demselben SDK.
 Das JPEG-Plugin wird ausdrücklich beigefügt und geprüft. PNG ist im verwendeten
-Qt Gui eingebaut. Deutsche Qt-Übersetzungen `qtbase_de.qm`, Komponentenhinweise,
+Qt Gui eingebaut. Sechs eingebettete App-Kataloge und fünf Qt-Basisübersetzungen, Komponentenhinweise,
 Lizenztexte und SDK-SPDX-Metadaten gehören zum Paket. Qt Test wird nicht ausgeliefert.
 Eine separate Qt-Installation oder Entwicklerwerkzeuge sind nicht erforderlich.
 
@@ -81,7 +81,7 @@ $env:MODELLBAUPROJEKT_QT_ROOT = 'C:\Qt\6.8.3\msvc2022_64'
 
 Das Skript baut und testet, verwendet `windeployqt`, übernimmt QSQLITE und JPEG
 explizit und kopiert die VC143-CRT-DLLs aus `VCToolsRedistDir` app-lokal.
-Es prüft die benötigten Laufzeitdateien und liefert deutsche Übersetzungen,
+Es prüft die benötigten Laufzeitdateien und liefert die eingebetteten Übersetzungen,
 Lizenztexte, Dokumentation und Prüfsummen mit. Die Microsoft-Redistributables
 müssen bei der nativen Distributionsprüfung ebenfalls berücksichtigt werden.
 
@@ -162,3 +162,13 @@ Am 27. Oktober 2026 geprüft. Vor Veröffentlichung erneut prüfen.
 [macOS-Deployment](https://doc.qt.io/qt-6.8/macos-deployment.html),
 [MSIX-Komponenten](https://learn.microsoft.com/en-us/windows/msix/desktop/desktop-to-uwp-manual-conversion)
 und [Apple: lesender Dateizugriff nach Auswahl](https://developer.apple.com/documentation/bundleresources/entitlements/com.apple.security.files.user-selected.read-only).
+
+## Internationale Vorschau
+
+Die aktuelle Vorschau wird als Ordner ohne ZIP geliefert. Für die Linux-Abnahme
+`package_linux.py --stage-only --output-dir build/staging/international` verwenden.
+Die sechs App-Sprachen und Qt-Basisübersetzungen liegen im Binary. Eigene native
+Systemdialogtitel sind lokalisiert, OS-Schaltflächen folgen gegebenenfalls der
+Systemsprache. Die endgültigen Windows-Aufnahmen, Manifest-Sprachressourcen,
+Store-Identität, Installation, Update und native Abnahme folgen separat.
+Siehe [Internationalisierung](internationalization.md).

@@ -1,0 +1,49 @@
+{
+  "items": [
+    [
+      "Planeur",
+      "Atelier Nord",
+      "Établi 1",
+      "Poncer les ailes avant de peindre."
+    ],
+    [
+      "Voilier",
+      "Studio Mira",
+      "Étagère 2",
+      "Découper les voiles dans du coton."
+    ],
+    [
+      "Tramway",
+      "Werkstatt Lin",
+      "Étagère 3",
+      "Peindre les cadres en crème."
+    ],
+    [
+      "Bâtiment d’atelier",
+      "Atelier Nord",
+      "Étagère 4",
+      "Ajuster les panneaux du toit à sec."
+    ],
+    [
+      "Pont de jardin",
+      "Studio Mira",
+      "Étagère 5",
+      "Vérifier les garde-corps avant le montage."
+    ]
+  ],
+  "photos": [
+    "images/glider.png",
+    "images/boat.jpg",
+    "images/railcar.png",
+    null,
+    null
+  ],
+  "statuses": [
+    "started",
+    "planned",
+    "finished",
+    "planned",
+    "started"
+  ],
+  "search": "ailes"
+}

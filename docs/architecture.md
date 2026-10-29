@@ -40,7 +40,7 @@ MainWindow hält höchstens die aktuelle Auswahl mit vollständigen Bildbytes.
 Ein danach leerer Projektname ist ungültig. Die Notiz wird nicht getrimmt.
 Der Klartexteditor verarbeitet Zeilenumbrüche in der üblichen LF-Darstellung.
 NFC, Unicode-Case-Folding und erneutes NFC behandeln Umlaute und zerlegte
-Schreibweisen gleich. Ein deutscher QCollator sortiert mit natürlicher
+Schreibweisen gleich. Ein QCollator der aktiven App-Sprache sortiert mit natürlicher
 Zahlenreihenfolge, die ID löst Gleichstände auf. Status ist kein Suchfeld.
 
 ## Der Status als fester Wertebereich
@@ -58,7 +58,7 @@ Unbekannte Speicherwerte und ungültige Enum-Werte werfen einen verständlichen
 Fehler. Es gibt keinen stillen Ersatz durch Geplant.
 
 Neue Entwürfe beginnen mit Planned. Eine nicht editierbare QComboBox enthält
-exakt die drei deutschen Beschriftungen. Ihre Item-Daten enthalten den Enum-Wert,
+exakt die drei lokalisierten Beschriftungen. Ihre Item-Daten enthalten den Enum-Wert,
 keine Datenbankschlüssel oder abgeleitete Listenpositionen. Jede Änderung ist
 zunächst nur Teil des Entwurfs. Alle Übergänge sind unmittelbar erlaubt.
 Die Tabelle zeigt denselben Anzeigenamen als Text.
@@ -179,3 +179,13 @@ Am 27. Oktober 2026 geprüft. Die Online-Dokumentation der 6.8-Reihe kann neuere
 [native Dateiauswahl](https://doc.qt.io/qt-6.8/qfiledialog.html),
 [Qt-SQL-Verbindungen](https://doc.qt.io/qt-6.8/qsqldatabase.html) und
 [PNG-Struktur und CRC](https://www.w3.org/TR/png-3/).
+
+## Sprachsystem
+
+`project_i18n` enthält sechs App-Kataloge und die passenden Qt-Basisübersetzungen
+als Ressourcen. Sie werden vor Fenstern und Worker installiert und bleiben
+während des Prozesses stabil. QLocale bestimmt Sortierung und Zahlenformat.
+`language.txt` wird begrenzt gelesen und über QSaveFile atomar im vorhandenen
+Worker gespeichert. Fehler erhalten Einstellung und Dialogauswahl. Die Auswahl
+gilt ab Neustart. SQLite und die Schlüssel planned, started und finished
+werden dafür nicht verändert. Texteingaben und Foto-BLOBs bleiben unverändert.

@@ -1,0 +1,49 @@
+{
+  "items": [
+    [
+      "Planeador",
+      "Atelier Nord",
+      "Mesa de trabajo 1",
+      "Lijar las alas antes de pintar."
+    ],
+    [
+      "Velero",
+      "Studio Mira",
+      "Estante 2",
+      "Cortar las velas de tela de algodón."
+    ],
+    [
+      "Tranvía",
+      "Werkstatt Lin",
+      "Estante 3",
+      "Pintar los marcos de color crema."
+    ],
+    [
+      "Edificio de taller",
+      "Atelier Nord",
+      "Estante 4",
+      "Probar las piezas del tejado sin pegamento."
+    ],
+    [
+      "Puente de jardín",
+      "Studio Mira",
+      "Estante 5",
+      "Comprobar las barandillas antes del montaje."
+    ]
+  ],
+  "photos": [
+    "images/glider.png",
+    "images/boat.jpg",
+    "images/railcar.png",
+    null,
+    null
+  ],
+  "statuses": [
+    "started",
+    "planned",
+    "finished",
+    "planned",
+    "started"
+  ],
+  "search": "alas"
+}

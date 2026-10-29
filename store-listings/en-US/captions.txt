@@ -1,0 +1,4 @@
+Browse projects with photos and status.
+Edit details, photo, and status together.
+Find a project through its notes.
+Choose the language for the next launch.

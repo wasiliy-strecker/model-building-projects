@@ -1,0 +1,5 @@
+ModellbauProjekt
+
+Enregistrez le nom du projet, le kit ou fabricant, l’emplacement et vos notes. Une photo JPEG ou PNG facultative et les états Prévu, En cours et Terminé montrent votre avancement.
+
+Recherchez dans les quatre champs de texte et modifiez vos projets. Tout reste local, sans compte ni Internet. Choisissez l’allemand, l’anglais, l’espagnol, le français, l’italien ou le portugais du Brésil. La langue change au prochain démarrage.
