@@ -22,6 +22,9 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setOrganizationDomain(QStringLiteral("appfabrik.de"));
   QCoreApplication::setApplicationVersion(QStringLiteral(APP_VERSION));
   QApplication::setApplicationDisplayName(QStringLiteral("Model Building Projects"));
+#ifdef Q_OS_LINUX
+  QGuiApplication::setDesktopFileName(QCoreApplication::applicationName());
+#endif
   QApplication::setWindowIcon(QIcon(QStringLiteral(":/assets/branding/icon-256.png")));
   modelbuild::Translations translations;
   translations.install(QStringLiteral("auto"));
