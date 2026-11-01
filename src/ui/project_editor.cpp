@@ -21,9 +21,11 @@ namespace modelbuild {
 
 ProjectEditor::ProjectEditor(StorageController& controller, std::optional<ModelProject> existing,
                              QWidget* parent, const QImage& preview)
-    : QDialog(parent), controller_(controller), name_(new QLineEdit(this)),
-      manufacturer_(new QLineEdit(this)), location_(new QLineEdit(this)),
-      note_(new QPlainTextEdit(this)), status_(new QComboBox(this)), photo_(new PhotoView(this)),
+    : QDialog(parent), controller_(controller),
+      color_(new ColorField(existing ? existing->fields.color : QString{}, this)),
+      name_(new QLineEdit(this)), manufacturer_(new QLineEdit(this)),
+      location_(new QLineEdit(this)), note_(new QPlainTextEdit(this)), status_(new QComboBox(this)),
+      photo_(new PhotoView(this)),
       choosePhoto_(new QPushButton(QCoreApplication::translate("App", "&Foto hinzufügen …"), this)),
       removePhoto_(new QPushButton(QCoreApplication::translate("App", "Foto &entfernen"), this)),
       scroll_(new QScrollArea(this)), error_(new QLabel(this)),
@@ -49,7 +51,7 @@ ProjectEditor::ProjectEditor(StorageController& controller, std::optional<ModelP
   removePhoto_->setAutoDefault(false);
   connect(choosePhoto_, &QPushButton::clicked, this, &ProjectEditor::selectPhoto);
   connect(removePhoto_, &QPushButton::clicked, this, [this] {
-    if (saving_ || importing_ || choosing_)
+    if (saving_ || importing_ || choosing_ || color_->isChoosing())
       return;
     photoBytes_.clear();
     photo_->showMessage(QCoreApplication::translate("App", "Kein Foto"));
@@ -120,6 +122,7 @@ ProjectEditor::ProjectEditor(StorageController& controller, std::optional<ModelP
   form->addRow(error_);
   form->addRow(QCoreApplication::translate("App", "&Projektname *"), name_);
   form->addRow(QCoreApplication::translate("App", "&Bausatz oder Hersteller"), manufacturer_);
+  form->addRow(QCoreApplication::translate("App", "Farbe"), color_);
   form->addRow(QCoreApplication::translate("App", "&Aufbewahrungsort"), location_);
   form->addRow(QCoreApplication::translate("App", "&Status"), status_);
   form->addRow(QCoreApplication::translate("App", "&Notiz"), note_);
@@ -172,6 +175,7 @@ ProjectEditor::ProjectEditor(StorageController& controller, std::optional<ModelP
             updateBusy();
           });
   updatePhotoActions();
+  color_->setTabOrderBetween(manufacturer_, location_);
   name_->setFocus();
 }
 
@@ -184,7 +188,8 @@ ProjectDraft ProjectEditor::draft() const {
           location_->text(),
           note_->toPlainText(),
           status_->currentData().value<ProjectStatus>(),
-          photoBytes_};
+          photoBytes_,
+          color_->value()};
 }
 
 void ProjectEditor::setSaving(bool saving) {
@@ -193,7 +198,8 @@ void ProjectEditor::setSaving(bool saving) {
 }
 
 void ProjectEditor::updateBusy() {
-  const bool saving = saving_ || importing_ || choosing_;
+  const bool saving = saving_ || importing_ || choosing_ || color_->isChoosing();
+  color_->setEnabled(!saving);
   name_->setEnabled(!saving);
   manufacturer_->setEnabled(!saving);
   location_->setEnabled(!saving);
@@ -209,7 +215,7 @@ void ProjectEditor::updateBusy() {
 }
 
 void ProjectEditor::save() {
-  if (saving_ || importing_ || choosing_ || controller_.isBusy()) {
+  if (saving_ || importing_ || choosing_ || color_->isChoosing() || controller_.isBusy()) {
     return;
   }
   try {
@@ -235,7 +241,7 @@ void ProjectEditor::updatePhotoActions() {
   removePhoto_->setEnabled(!photoBytes_.isEmpty() && !importing_ && !saving_ && !choosing_);
 }
 void ProjectEditor::selectPhoto() {
-  if (saving_ || importing_ || choosing_ || controller_.isBusy())
+  if (saving_ || importing_ || choosing_ || color_->isChoosing() || controller_.isBusy())
     return;
   choosing_ = true;
   updateBusy();
@@ -251,7 +257,8 @@ void ProjectEditor::selectPhoto() {
   importFromPath(path);
 }
 void ProjectEditor::importFromPath(const QString& path) {
-  if (path.isEmpty() || saving_ || importing_ || choosing_ || controller_.isBusy())
+  if (path.isEmpty() || saving_ || importing_ || choosing_ || color_->isChoosing() ||
+      controller_.isBusy())
     return;
   importing_ = true;
   error_->hide();
@@ -263,7 +270,7 @@ void ProjectEditor::importFromPath(const QString& path) {
 }
 
 bool ProjectEditor::requestClose() {
-  if (saving_ || importing_ || choosing_) {
+  if (saving_ || importing_ || choosing_ || color_->isChoosing()) {
     return false;
   }
   if (draft() != original_ && !confirmDiscard(this)) {

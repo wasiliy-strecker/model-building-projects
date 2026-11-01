@@ -161,11 +161,11 @@ def run(args):
         )
         time.sleep(0.2)
 
-    def destructive(identifier, discard=False):
+    def destructive(identifier):
         shape = geometry(identifier)
         click(
             identifier,
-            int(shape["WIDTH"]) - (198 if discard else 140),
+            int(shape["WIDTH"]) - 50,
             int(shape["HEIGHT"]) - 24,
         )
 
@@ -297,7 +297,7 @@ def run(args):
             window("^Projekt bearbeiten$")
             key("Escape")
             confirmation = window("Änderungen verwerfen")
-            destructive(confirmation, discard=True)
+            destructive(confirmation)
             assert rows()[0] == original
             edit_window = editor()
             key("alt+p", "ctrl+a")

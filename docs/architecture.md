@@ -152,8 +152,8 @@ Beim Abbau wartet der Controller auf den geordneten Abschluss laufender Arbeit.
 
 ## Schema, Fehler und lokale Daten
 
-Schema 1 umfasst `projects(id,name,manufacturer,location,note,status,photo)`.
-Die app-eigene `application_id` ist `1296191537`, `user_version` ist 1.
+Schema 2 umfasst `projects(id,name,manufacturer,location,note,status,photo,color)`.
+Die app-eigene `application_id` ist `1296191537`, `user_version` ist 2.
 Status besitzt NOT NULL, Default `planned` und einen CHECK für genau drei Werte.
 Ein weiterer CHECK begrenzt Foto-Typ und Byteanzahl. Die Detailabfrage liest
 übermäßig große gespeicherte BLOBs nicht in den Arbeitsspeicher.
@@ -189,3 +189,24 @@ während des Prozesses stabil. QLocale bestimmt Sortierung und Zahlenformat.
 Worker gespeichert. Fehler erhalten Einstellung und Dialogauswahl. Die Auswahl
 gilt ab Neustart. SQLite und die Schlüssel planned, started und finished
 werden dafür nicht verändert. Texteingaben und Foto-BLOBs bleiben unverändert.
+
+## Farbfeld und Migration, 1. November 2026
+
+Der Entwurf enthält zusätzlich `color`. Leer bedeutet keine Farbe. Der
+Hexwert verwendet RGB mit optionalem Alpha am Ende. Die Domain prüft das
+Format, der app-lokale `ColorField` kapselt Auswahl, Abbrechen und Entfernen.
+`application/colors` verarbeitet sRGB-Werte und Schachbrett-Farbflächen mit
+QImage ohne Widgets. QWidget und QPixmap bleiben ausschließlich in der UI.
+
+Die SQLite-Erweiterung prüft zuerst App-Kennung, Schema und Integrität.
+`ALTER TABLE ... ADD COLUMN color TEXT NOT NULL DEFAULT ''` und
+`PRAGMA user_version=2` bilden eine Transaktion. Bei gesperrtem Commit wird
+auch die Schemaänderung zurückgerollt. IDs, Fotobytes und vorhandene
+Zusatzdaten werden weder kopiert noch neu vergeben. Schema 2 wird beim
+nächsten Start erneut validiert. Ältere Builds weisen es als zu neu zurück.
+
+JSON-Version 1 erhält das optionale Feld `color`. Der aktuelle Decoder liest
+auch frühere Einträge ohne dieses Feld als farblos. Neue Exporte enthalten es
+immer. Die alten strengen Decoder akzeptieren diese Erweiterung nicht.
+Fingerprints berücksichtigen Farbe, so dass verschiedenfarbige Einträge beim
+ergänzenden Import unabhängig bleiben. Wiederholter Import bleibt idempotent.

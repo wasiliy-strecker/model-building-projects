@@ -11,7 +11,7 @@ QString privacyNotice() {
              "86152 Augsburg, Deutschland\nDatenschutz: contact@appfabrik-ai.de\nSupport: "
              "support@appfabrik-ai.de\n\nZweck und gespeicherte Daten\nModel Building Projects "
              "verwaltet deine privaten Einträge. Die App speichert Namen, Bausätze oder "
-             "Hersteller, Aufbewahrungsorte, Notizen, interne Eintragskennungen und deine "
+             "Hersteller, Aufbewahrungsorte, Farben, Notizen, interne Eintragskennungen und deine "
              "Spracheinstellung sowie ein optionales Foto und den Projektstatus standardmäßig "
              "lokal im Benutzerprofil deines Computers. Fotos bleiben als Originaldateiinhalt "
              "gespeichert und können Metadaten enthalten. Die Angaben können personenbezogene "
