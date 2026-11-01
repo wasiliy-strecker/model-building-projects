@@ -3,6 +3,7 @@
 #include "persistence/language_preferences.h"
 #include "persistence/sqlite_project_repository.h"
 #include "ui/main_window.h"
+#include "ui/native_edit_menus.h"
 #include <QCoreApplication>
 
 #include <QApplication>
@@ -44,6 +45,9 @@ int main(int argc, char* argv[]) {
         modelbuild::resolveDataDirectory(parser.value(dataOption), parser.isSet(dataOption));
     const auto preference = modelbuild::readLanguagePreference(directory);
     translations.install(preference.value);
+#ifdef Q_OS_MACOS
+    modelbuild::NativeEditMenus nativeEditMenus;
+#endif
     modelbuild::StorageController controller(
         [directory] { return std::make_unique<modelbuild::SqliteProjectRepository>(directory); });
     modelbuild::MainWindow window(controller, directory, preference.value);
