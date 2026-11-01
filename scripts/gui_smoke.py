@@ -126,8 +126,7 @@ def run(args):
         click(active, int(shape["WIDTH"]) - 65, int(shape["HEIGHT"]) - 34)
 
     def add_project():
-        shape = geometry(active)
-        click(active, 90, int(shape["HEIGHT"]) - 34)
+        key("ctrl+n")
 
     def text(value):
         focus_owned()
@@ -172,6 +171,7 @@ def run(args):
 
     with tempfile.TemporaryDirectory(prefix="modellbauprojekt-gui-") as tmp:
         directory = Path(tmp)
+        (directory / "language.txt").write_text("de-DE\n")
         database = directory / "modellbauprojekt.sqlite3"
         source = directory / "synthetischer-gleiter.png"
         replacement = directory / "synthetisches-boot.jpg"
@@ -215,23 +215,21 @@ def run(args):
                 stdout=log,
                 stderr=log,
             )
-            main_window = window("^ModellbauProjekt$")
+            main_window = window("^Model Building Projects$")
             wait(lambda: rows() is not None)
             time.sleep(0.35)
             return main_window
 
         def stop():
-            window("^ModellbauProjekt$")
+            window("^Model Building Projects$")
             key("alt+F4")
             process.wait(timeout=8)
             assert process.returncode == 0
 
         def editor():
-            window("^ModellbauProjekt$")
+            window("^Model Building Projects$")
             time.sleep(1.0)
-            # Edit button is outside the scrollable list, at a stable bottom position.
-            shape = geometry(main_window)
-            click(main_window, 215, int(shape["HEIGHT"]) - 34)
+            key("alt+b")
             return window("^Projekt bearbeiten$")
 
         def import_file(path, screenshot=None):
@@ -282,7 +280,7 @@ def run(args):
                 "started",
                 source_bytes,
             ), original[:6]
-            window("^ModellbauProjekt$")
+            window("^Model Building Projects$")
             capture(main_window, "05-gespeichert")
             key("ctrl+f")
             text("TRAGFLÄCHE")
@@ -330,7 +328,7 @@ def run(args):
             key("alt+s", "Down")
             save()
             wait(lambda: rows()[0][5] == "started")
-            window("^ModellbauProjekt$")
+            window("^Model Building Projects$")
             add_project()
             edit_window = window("^Projekt hinzufügen$")
             key("alt+p")
@@ -341,7 +339,7 @@ def run(args):
             wait(lambda: len(rows()) == 2)
             assert rows()[1][5:] == ("finished", source_bytes)
             assert rows()[0][0] != rows()[1][0]
-            window("^ModellbauProjekt$")
+            window("^Model Building Projects$")
             capture(main_window, "11-gleiche-namen")
             source.unlink()
             replacement.unlink()
@@ -381,24 +379,23 @@ def run(args):
             wait(lambda: rows()[0][6] is None)
             assert rows()[0][5] == "started"
             assert rows()[1][6] == source_bytes
-            window("^ModellbauProjekt$")
-            shape = geometry(main_window)
-            click(main_window, 290, int(shape["HEIGHT"]) - 34)
+            window("^Model Building Projects$")
+            key("alt+l")
             window("Projekt löschen")
             key("Escape")
             assert len(rows()) == 2
-            window("^ModellbauProjekt$")
-            click(main_window, 290, int(shape["HEIGHT"]) - 34)
+            window("^Model Building Projects$")
+            key("alt+l")
             confirmation = window("Projekt löschen")
             capture(confirmation, "13-loeschbestaetigung")
             destructive(confirmation)
             wait(lambda: len(rows()) == 1)
             assert rows()[0][0] == before[1][0]
-            window("^ModellbauProjekt$")
-            click(main_window, 290, int(shape["HEIGHT"]) - 34)
+            window("^Model Building Projects$")
+            key("alt+l")
             destructive(window("Projekt löschen"))
             wait(lambda: rows() == [])
-            window("^ModellbauProjekt$")
+            window("^Model Building Projects$")
             capture(main_window, "14-wieder-leer")
             stop()
             (output / "result.json").write_text(

@@ -18,8 +18,8 @@ ctest --preset release
 mkdir -p "$modellbau_stage"
 cp README.md THIRD_PARTY_NOTICES.md "$modellbau_stage/"
 cp -R docs "$modellbau_stage/docs"
-cp -R build/release/modellbauprojekt.app "$modellbau_stage/ModellbauProjekt.app"
-modellbau_app="$modellbau_stage/ModellbauProjekt.app"
+cp -R build/release/modellbauprojekt.app "$modellbau_stage/Model Building Projects.app"
+modellbau_app="$modellbau_stage/Model Building Projects.app"
 "$MODELLBAUPROJEKT_QT_ROOT/bin/macdeployqt" "$modellbau_app" -always-overwrite -appstore-compliant
 test -f "$modellbau_app/Contents/PlugIns/sqldrivers/libqsqlite.dylib"
 test -f "$modellbau_app/Contents/PlugIns/platforms/libqcocoa.dylib"
@@ -45,7 +45,7 @@ iconutil -c icns "$modellbau_icons" -o "$modellbau_app/Contents/Resources/Modell
 /usr/libexec/PlistBuddy -c "Add :CFBundleIconFile string ModellbauProjekt.icns" "$modellbau_app/Contents/Info.plist"
 # Ad-hoc signing permits local Apple-Silicon testing. It is not a distribution identity.
 codesign --force --deep --sign - "$modellbau_app"
-hdiutil create -volname ModellbauProjekt -srcfolder "$modellbau_stage" -ov -format UDZO "$modellbau_dmg"
+hdiutil create -volname "Model Building Projects" -srcfolder "$modellbau_stage" -ov -format UDZO "$modellbau_dmg"
 shasum -a 256 "$modellbau_dmg" > "$modellbau_dmg.sha256"
 echo "$modellbau_dmg"
 echo "Native GUI-Abnahme und spätere Store-Signierung bleiben erforderlich."

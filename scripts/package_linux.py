@@ -86,7 +86,7 @@ def main():
     (stage / "bin/qt.conf").write_text(
         "[Paths]\nPrefix=..\nPlugins=plugins\nLibraries=lib\nTranslations=translations\n"
     )
-    launcher = stage / "ModellbauProjekt.sh"
+    launcher = stage / "ModelBuildingProjects.sh"
     launcher.write_text(
         '#!/bin/sh\nset -eu\nmodellbau_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)\nexport LD_LIBRARY_PATH="$modellbau_dir/lib"\nexport QT_PLUGIN_PATH="$modellbau_dir/plugins"\nexport QT_QPA_PLATFORM_PLUGIN_PATH="$modellbau_dir/plugins/platforms"\nexec "$modellbau_dir/bin/modellbauprojekt" "$@"\n'
     )

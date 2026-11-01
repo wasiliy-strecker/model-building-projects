@@ -1,4 +1,4 @@
-ModellbauProjekt
+Model Building Projects
 
 Registra nome del progetto, kit o produttore, posizione e note. Una foto JPEG o PNG facoltativa e gli stati Pianificato, Iniziato e Finito mostrano i progressi.
 

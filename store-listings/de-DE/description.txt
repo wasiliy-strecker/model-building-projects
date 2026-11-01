@@ -1,4 +1,4 @@
-ModellbauProjekt
+Model Building Projects
 
 Erfasse Projektname, Bausatz oder Hersteller, Aufbewahrungsort und Notiz. Ein optionales JPEG- oder PNG-Foto und die Statuswerte Geplant, Angefangen und Fertig zeigen deinen aktuellen Stand.
 

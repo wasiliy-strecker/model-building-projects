@@ -30,6 +30,10 @@ private:
   std::optional<ModelProject> selectedProject() const;
   void openEditor(bool editing);
   void deleteSelected();
+  bool beginTransfer();
+  void finishTransfer(const QString& message);
+  void exportCollection();
+  void importCollection();
   void showAbout();
   void showLanguage();
   StorageController& controller_;
@@ -54,6 +58,10 @@ private:
   QPushButton* remove_;
   QPushButton* reload_;
   QPushButton* language_;
+  QPushButton* exportCollection_;
+  QPushButton* importCollection_;
+  QString transferDirectory_;
+  bool transferRunning_ = false;
   bool ready_ = false;
 };
 

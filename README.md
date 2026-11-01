@@ -1,11 +1,40 @@
-# ModellbauProjekt
+# Model Building Projects
+
+## Sammlung, Information und Sprache
+
+Hinzufügen steht oben rechts. Unter der Tabelle stehen Bearbeiten und Löschen.
+Die Spaltenüberschriften sortieren auf- und absteigend. Textspalten verwenden die
+aktuelle Sprache und eine natürliche Zahlenreihenfolge. Status folgt der Reihenfolge
+geplant, angefangen, fertig. Die Auswahl bleibt erhalten.
+
+Info enthält getrennte Fenster für Über die App, Datenschutz und Lizenzen.
+Alle Inhalte sind offline verfügbar. Neue Installationen verwenden die unterstützte
+Systemsprache mit Englisch als Fallback. Gespeicherte Sprachwahlen bleiben erhalten.
+
+Exportieren sichert die gesamte gespeicherte Sammlung als JSON mit eingebetteten
+Originalfotos und dem Projektstatus. Importieren ergänzt
+fehlende Exemplare nach Bestätigung. Vorhandene Einträge werden nicht überschrieben.
+Erneuter Import derselben Datei legt keine zusätzlichen identischen Exemplare an.
+Exportdateien enthalten keine Spracheinstellung oder internen Eintrags-IDs.
+
+Eine Transferdatei darf höchstens 256 MiB und 10.000 Einträge enthalten.
+Die bisherigen Fotogrenzen bleiben bestehen. Maximal eine Million Zeichen je Textfeld. Die Grenze verändert vorhandene Daten nicht.
+Ein unvollständiger Import wird niemals gespeichert. Dateien anderer Apps und
+unbekannte Formatversionen werden abgewiesen. JSON-Dateien sind nicht verschlüsselt.
+
+Auf macOS wählst du erst einen Ordner und dann einen Dateinamen. Auf anderen
+Plattformen öffnet sich der Speicherdialog. Vorhandene Dateien werden erst nach
+Bestätigung und erneuter Prüfung ersetzt. Datenträger ohne Hardlinks werden für
+neue Dateien unterstützt. Bei hartem Abbruch kann dort eine unvollständige neue
+Datei zurückbleiben. Erstelle den Export dann erneut unter einem neuen Namen.
+
 
 Kleine Modellbauprojekte an einem Ort. Erfasse Projektname, Bausatz oder
 Hersteller, Aufbewahrungsort und eine mehrzeilige Notiz. Ein optionales Foto
 und der Status **Geplant**, **Angefangen** oder **Fertig** zeigen den aktuellen
 Stand. Alles bleibt lokal, ohne Konto und Internet.
 
-![ModellbauProjekt mit synthetischem Gleiter](docs/screenshots/modellbauprojekt.png)
+![Model Building Projects mit synthetischem Gleiter](docs/screenshots/modellbauprojekt.png)
 
 Version 0.1.0 ist die dritte kleine C++-App des Hobby-Portfolios und ein
 nachvollziehbares Bewerbungsprojekt. Veröffentlichungsziele sind ausdrücklich
@@ -164,7 +193,7 @@ und synthetische Bilder.
 | --- | --- | --- |
 | 1 | BrettspielRegal | Anlegen, Bearbeiten, Löschen und Textsuche |
 | 2 | SammlerVitrine | Ein Foto pro Eintrag |
-| 3 | ModellbauProjekt | Projektstatus |
+| 3 | Model Building Projects | Projektstatus |
 | 4 | HolzwerkProjekt | Checkliste |
 | 5 | RestaurierungsHeft | PDF-Export |
 
@@ -173,3 +202,13 @@ nur Stufe 3. Keine Checklisten, PDF-Exporte, Teile- oder Farbenverwaltung,
 Werkzeugbestände, Bauzeiten, Kosten, Fristen, Erinnerungen, Statistiken oder
 Online-Anbindungen. HolzwerkProjekt und RestaurierungsHeft gehören nicht zu
 diesem Repository. FactoryForge und PDF Batch Studio bleiben größere Einzelprojekte.
+
+## JSON-Austauschformat
+
+Formatkennung `model-building-projects.collection`, Version `1`, Eintragsliste `projects`.
+Jeder Eintrag enthält `name`, `manufacturer`, `location`, `note` und `photoBase64`.
+Ohne Foto ist `photoBase64` null, sonst enthält es die ursprünglichen Bildbytes
+als kanonisches Base64. Interne Eintrags-IDs sind nicht Bestandteil des Formats.
+Status wird als `status` mit `planned`, `started` oder `finished` gespeichert.
+Dateien anderer Produkte, unbekannte Versionen und ungültige Felder werden
+abgewiesen. Der bestätigte Import verwendet einen bereits validierten Snapshot.

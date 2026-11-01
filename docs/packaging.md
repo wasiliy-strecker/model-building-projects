@@ -1,5 +1,13 @@
 # Paketierung und spätere Store-Schritte
 
+Aktueller öffentlicher Name: **Model Building Projects**. Alle sechs Oberflächensprachen bleiben
+verfügbar. Neue Installationen verwenden die unterstützte Systemsprache mit Englisch
+als Fallback. Die technischen Kennungen und Datenverzeichnisse bleiben unverändert.
+macOS erlaubt Zugriff auf ausgewählte Dateien und Ordner mit Lese-/Schreibrechten.
+Die Export-Ordnerwahl gewährt Zugriff auch für temporäre Nachbardateien.
+Native macOS-Sandbox und ein physischer exFAT-Datenträger benötigen eigene Abnahme.
+
+
 Veröffentlichungsreihenfolge: **zuerst Microsoft Store, später Mac App Store**
 für Mac-Computer. Jetzt werden lokale Testpakete vorbereitet. Es gibt weder
 Store-Einreichung noch Veröffentlichung oder behauptete Store-Freigabe.

@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
   QCoreApplication::setApplicationName(QStringLiteral("de.appfabrik.modellbauprojekt"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("appfabrik.de"));
   QCoreApplication::setApplicationVersion(QStringLiteral(APP_VERSION));
-  QApplication::setApplicationDisplayName(QStringLiteral("ModellbauProjekt"));
+  QApplication::setApplicationDisplayName(QStringLiteral("Model Building Projects"));
   QApplication::setWindowIcon(QIcon(QStringLiteral(":/assets/branding/icon-256.png")));
   modelbuild::Translations translations;
   translations.install(QStringLiteral("auto"));
@@ -56,9 +56,9 @@ int main(int argc, char* argv[]) {
     }
     return QApplication::exec();
   } catch (const std::exception& error) {
-    QMessageBox::critical(nullptr,
-                          QCoreApplication::translate("App", "ModellbauProjekt kann nicht starten"),
-                          QString::fromUtf8(error.what()));
+    QMessageBox::critical(
+        nullptr, QCoreApplication::translate("App", "Model Building Projects kann nicht starten"),
+        QString::fromUtf8(error.what()));
     return 1;
   }
 }
