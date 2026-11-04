@@ -43,8 +43,11 @@ for modellbau_size in 16 32 128 256 512; do
 done
 iconutil -c icns "$modellbau_icons" -o "$modellbau_app/Contents/Resources/ModellbauProjekt.icns"
 /usr/libexec/PlistBuddy -c "Add :CFBundleIconFile string ModellbauProjekt.icns" "$modellbau_app/Contents/Info.plist"
+# Normalize the staging copy before signing; reject invalid nested bundle IDs.
+python3 scripts/macos_bundle.py prepare --app "$modellbau_app"
 # Ad-hoc signing permits local Apple-Silicon testing. It is not a distribution identity.
 codesign --force --deep --sign - "$modellbau_app"
+python3 scripts/macos_bundle.py inspect --app "$modellbau_app"
 hdiutil create -volname "Model Building Projects" -srcfolder "$modellbau_stage" -ov -format UDZO "$modellbau_dmg"
 shasum -a 256 "$modellbau_dmg" > "$modellbau_dmg.sha256"
 echo "$modellbau_dmg"
